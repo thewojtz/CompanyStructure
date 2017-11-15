@@ -1,0 +1,31 @@
+{
+  "company": {
+    "name": "MyCompany",
+    "departments": {
+      "HR": {
+        "id": 1,
+        "localisations": {
+          "Kraków": {
+            "id": 1,
+            "teams": {
+              "Team1": {
+                "relation": ["Team2"]
+              },
+              "Team2": {
+                "relation": ["Team1"]
+              },
+              "Team3": {
+                "relation": ["Team1", "Team2"]
+              }
+            }
+          }
+        }
+      },
+      "PR": {
+
+      }
+    },
+    "team_cooperation": {}
+
+  }
+}
