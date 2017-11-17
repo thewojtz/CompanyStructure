@@ -1,7 +1,7 @@
 package com.wlegwand.controller;
 
 import com.wlegwand.dao.DatabaseDAO;
-import com.wlegwand.dto.DepartamentDTO;
+import com.wlegwand.dto.DepartmentDTO;
 import com.wlegwand.dto.LocalizationDTO;
 import com.wlegwand.dto.TeamDTO;
 
@@ -15,22 +15,22 @@ public class DatabaseController {
         jsonStructure = DatabaseDAO.getInstance().getData();
     }
 
-    public DepartamentDTO getDepartament(String name) {
-        return new DepartamentDTO();
+    public DepartmentDTO getDepartament(String name) {
+        return new DepartmentDTO();
     }
 
-    public void addDepartament(DepartamentDTO departamentDTO) {
+    public void addDepartament(DepartmentDTO departmentDTO) {
 
     }
 
     //singleton
 
-    //addLocalisation(string departament, string localization)
-    public LocalizationDTO getLocalisation(String departament, String localisation) {
+    //addLocalisation(string department, string localization)
+    public LocalizationDTO getLocalization(String department, String localization) {
         return new LocalizationDTO();
     }
 
-    public void addLocalisation(LocalizationDTO localization){
+    public void addLocalization(LocalizationDTO localization){
 
     }
 
@@ -50,7 +50,12 @@ public class DatabaseController {
 
     //addTeamRelation
 
+    public void addTeamRelation(TeamDTO team, TeamDTO relatedTeam){
+        team.addTeamRelation(relatedTeam);
+    }
+
     //getTeamRelationList
+
 
     //removeTeamRelation
 
