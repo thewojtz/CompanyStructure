@@ -9,9 +9,10 @@ import org.testng.annotations.Test;
 public class MainTest {
 
     @Test
-    public void testHome() throws Exception {
+    public void testAddTeam() throws Exception {
         Main main = new Main();
-        String result = main.addUser();
+        String result = main.addTeam("testDepartment","testLocalization","testTeam");
+
         Assert.assertEquals(result, "User dded");
 
     }

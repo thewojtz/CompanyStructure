@@ -6,6 +6,7 @@ import com.wlegwand.dto.LocalizationDTO;
 import com.wlegwand.dto.TeamDTO;
 
 import javax.json.JsonStructure;
+import java.util.List;
 
 public class DatabaseController {
 
@@ -19,7 +20,7 @@ public class DatabaseController {
         return new DepartmentDTO();
     }
 
-    public void addDepartament(DepartmentDTO departmentDTO) {
+    public void addDepartament(DepartmentDTO departmentDTO) {//to jest get i zwraca departament
 
     }
 
@@ -42,7 +43,7 @@ public class DatabaseController {
     }
 
     //getTeam
-    public TeamDTO getTeam(String departament, String localisation, String team){
+    public TeamDTO getTeam(String department, String localization, String team){
         return new TeamDTO();
     }
 
@@ -50,12 +51,14 @@ public class DatabaseController {
 
     //addTeamRelation
 
-    public void addTeamRelation(TeamDTO team, TeamDTO relatedTeam){
+    public void addAssociates(TeamDTO team, TeamDTO relatedTeam){
         team.addTeamRelation(relatedTeam);
     }
 
-    //getTeamRelationList
-
+    /*public List<TeamDTO> getAssociates(String department, String localization, String team){
+        return relations;
+    }
+    */
 
     //removeTeamRelation
 

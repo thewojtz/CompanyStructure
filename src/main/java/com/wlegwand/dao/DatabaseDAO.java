@@ -16,6 +16,7 @@ public class DatabaseDAO {
     private DatabaseDAO() {
         ClassLoader classLoader = getClass().getClassLoader();
         file = new File(classLoader.getResource(DATABASE_FILENAME).getFile());
+        System.out.println("lolololo");
     }
 
     public static DatabaseDAO getInstance() {

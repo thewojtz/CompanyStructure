@@ -13,11 +13,11 @@ public class TeamDTO {
     public TeamDTO() {
     }
 
-    public TeamDTO(String department, String localization, String team, List<TeamDTO> teamRelationList) {
+    public TeamDTO(String department, String localization, String team) {//, List<TeamDTO> teamRelationList
         this.department = department;
         this.localization = localization;
         this.team = team;
-        this.teamRelationList = teamRelationList;
+        //this.teamRelationList = teamRelationList;
     }
 
 
