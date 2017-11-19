@@ -1,66 +1,103 @@
 package com.wlegwand.controller;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.wlegwand.dao.DatabaseDAO;
 import com.wlegwand.dto.DepartmentDTO;
 import com.wlegwand.dto.LocalizationDTO;
 import com.wlegwand.dto.TeamDTO;
 
 import javax.json.JsonStructure;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DatabaseController {
 
     JsonStructure jsonStructure;
-
-    public DatabaseController() {
-        jsonStructure = DatabaseDAO.getInstance().getData();
-    }
-
-    public DepartmentDTO getDepartament(String name) {
-        return new DepartmentDTO();
-    }
-
-    public void addDepartament(DepartmentDTO departmentDTO) {//to jest get i zwraca departament
+    private static DatabaseController instance;
+    private DatabaseController(){
 
     }
-
-    //singleton
-
-    //addLocalisation(string department, string localization)
-    public LocalizationDTO getLocalization(String department, String localization) {
-        return new LocalizationDTO();
+    public static DatabaseController getInstance(){
+        if (instance == null) {
+            instance = new DatabaseController();
+        }
+        return instance;
     }
 
-    public void addLocalization(LocalizationDTO localization){
+    private Map<String, HashMap<String,HashMap<String,TeamDTO>>> companyStructure = new HashMap<String, HashMap<String, HashMap<String, TeamDTO>>>();
 
+    public String addDepartmentToContainer(String department){
+
+        boolean doesExist = false;
+        if(companyStructure.containsKey(department)){
+                    doesExist = true;
+        }
+        if(!doesExist){
+            companyStructure.put(department, new HashMap<String,HashMap<String,TeamDTO>>());
+            return "Department added!";
+        }
+        else
+            return "Department already exists!";
     }
 
-    //removeLocal
+    public String addLocalizationToContainer(String department,String localization){
 
-    //addTeam
-    public void addTeam(TeamDTO teamDTO){
-
+        boolean doesExist = false;
+        if(companyStructure.containsKey(department)){
+            if(companyStructure.get(department).containsKey(localization)) {
+                    doesExist = true;
+            }
+        }
+        if(!doesExist){
+            companyStructure.put(department, new HashMap<String,HashMap<String,TeamDTO>>());
+            companyStructure.get(department).put(localization, new HashMap<String,TeamDTO>());
+            return "Localization added!";
+        }
+        else
+            return "Localization already exists!";
     }
 
-    //getTeam
-    public TeamDTO getTeam(String department, String localization, String team){
-        return new TeamDTO();
+    public String addTeamToContainer(String department,String localization,String team){
+
+        boolean doesExist = false;
+        if(companyStructure.containsKey(department)){
+            if(companyStructure.get(department).containsKey(localization)) {
+                if (companyStructure.get(department).get(localization).containsKey(team)) {
+                    doesExist = true;
+                }
+            }
+        }
+        if(!doesExist){
+            companyStructure.put(department, new HashMap<String,HashMap<String,TeamDTO>>());
+            companyStructure.get(department).put(localization, new HashMap<String,TeamDTO>());
+            companyStructure.get(department).get(localization).put(team, new TeamDTO(department,localization,team));
+            return "Team added!";
+        }
+        else
+            return "Team already exists!";
     }
 
-    //removeTeam
-
-    //addTeamRelation
-
-    public void addAssociates(TeamDTO team, TeamDTO relatedTeam){
-        team.addTeamRelation(relatedTeam);
+    public List<TeamDTO> getAssociates(String department,String localization,String team){
+        if(companyStructure.containsKey(department)) {
+            if (companyStructure.get(department).containsKey(localization)) {
+                if (companyStructure.get(department).get(localization).containsKey(team)) {
+                    return companyStructure.get(department).get(localization).get(team).getTeamRelationList();
+                }
+            }
+        }
+        return  null;
     }
 
-    /*public List<TeamDTO> getAssociates(String department, String localization, String team){
-        return relations;
+    public void endTree(){
+        companyStructure.clear();
     }
-    */
 
-    //removeTeamRelation
+
+
+
+
+
 
 
 }

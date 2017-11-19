@@ -1,7 +1,9 @@
 package com.wlegwand;
 
+import com.wlegwand.controller.DatabaseController;
 import com.wlegwand.dao.DatabaseDAO;
 import com.wlegwand.dto.TeamDTO;
+import com.wlegwand.controller.DatabaseController;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.web.bind.annotation.*;
@@ -12,37 +14,26 @@ import java.util.List;
 @EnableAutoConfiguration
 public class Main {
 
-    Main(){
-        DatabaseDAO companyDatabase = DatabaseDAO.getInstance();
-    }
-
+    private DatabaseDAO companyDatabase = DatabaseDAO.getInstance();
+    private DatabaseController companyDatabaseController = DatabaseController.getInstance();
 
     @RequestMapping("/addDepartment")
     String addDepartment(@RequestParam(value="department") String department) {
-        return department;
+        return companyDatabaseController.addDepartmentToContainer(department);
     }
     @RequestMapping("/addLocalization")
     String addLocalization(@RequestParam(value="department") String department, @RequestParam(value="localization") String localization) {
-        return department+" "+localization;
+        return companyDatabaseController.addLocalizationToContainer(department,localization);
     }
 	@RequestMapping("/addTeam")
     String addTeam(@RequestParam(value="department") String department, @RequestParam(value="localization") String localization, @RequestParam(value="team") String team) {
-
-        return department+" "+localization+" "+team;
+        return companyDatabaseController.addTeamToContainer(department,localization,team);
     }
-    @RequestMapping("/addAssociates")
-    String addAssociates(@RequestParam(value="department") String department, @RequestParam(value="localization") String localization, @RequestParam(value="team") String team) {
-
-        return department+" "+localization+" "+team;
-    }
-
-
-    /*
 	@RequestMapping("/getTeamAssociates")
     List<TeamDTO> getTeamAssociates(@RequestParam(value="department") String department, @RequestParam(value="localization") String localization, @RequestParam(value="team") String team) {
-		return getAssociates(department, localization, team);
+		return companyDatabaseController.getAssociates(department, localization, team);
 	}
-	*/
+
 
     @RequestMapping("/getCompanyStructureTree")
     void getCompanyStructureTree() {
@@ -51,11 +42,11 @@ public class Main {
 
     @RequestMapping("/removeCompanyStructureTree")
     void removeCompanyStructureTree() {
-
+        companyDatabaseController.endTree();
     }
 
 
-	
+
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Main.class, args);
     }

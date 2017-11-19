@@ -1,22 +1,30 @@
 package com.wlegwand.dao;
 
 
+import com.wlegwand.dto.DepartmentDTO;
+import com.wlegwand.dto.LocalizationDTO;
+import com.wlegwand.dto.TeamDTO;
+
 import javax.json.*;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DatabaseDAO {
 
     private static final String DATABASE_FILENAME = "database.json";
-
+    //private List<TeamDTO> teamContainer = new ArrayList<TeamDTO>();
     private static DatabaseDAO instance;
 
-    private File file;
+
+    private static File file;
 
     private DatabaseDAO() {
         ClassLoader classLoader = getClass().getClassLoader();
         file = new File(classLoader.getResource(DATABASE_FILENAME).getFile());
-        System.out.println("lolololo");
     }
 
     public static DatabaseDAO getInstance() {
@@ -36,7 +44,7 @@ public class DatabaseDAO {
         }
     }
 
-    public void writeData(JsonObject jsonObject) {
+    public static void writeData(JsonObject jsonObject) {
         try {
             JsonWriter jsonWriter = Json.createWriter(new FileWriter(file));
             jsonWriter.writeObject(jsonObject);
@@ -45,5 +53,4 @@ public class DatabaseDAO {
         }
 
     }
-
 }
