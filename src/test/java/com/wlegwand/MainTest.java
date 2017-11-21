@@ -10,19 +10,26 @@ public class MainTest {
 
     @Test
     public void testAddTeam() throws Exception {
-       // Main main = new Main();
-        //String result = main.addTeam("testDepartment","testLocalization","testTeam");
-
-        //Assert.assertEquals(result, "User dded");
+       Main main = new Main();
+       String result = main.addTeam("testDepartment","testLocalization","testTeam");
+       Assert.assertEquals(result, "Department added");
 
     }
-
     @Test
-    public void testAddUser() throws Exception {
+    public void testAddLocalization() throws Exception {
+        Main main = new Main();
+        String result = main.addLocalization("testDepartment","testLocalization");
+        Assert.assertEquals(result, "Localization added");
+
+    }
+    @Test
+    public void testAddDepartment() throws Exception {
+        Main main = new Main();
+        String result = main.addDepartment("testDepartment");
+        Assert.assertEquals(result, "Department added");
+
     }
 
-    @Test
-    public void testGetName() throws Exception {
-    }
+
 
 }

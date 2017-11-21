@@ -1,21 +1,28 @@
 package com.wlegwand.controller;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.wlegwand.dao.DatabaseDAO;
-import com.wlegwand.dto.DepartmentDTO;
-import com.wlegwand.dto.LocalizationDTO;
+import com.wlegwand.dto.CompanyDTO;
 import com.wlegwand.dto.TeamDTO;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.json.JsonStructure;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DatabaseController {
 
+    private static final Logger LOG = LogManager.getLogger(DatabaseController.class);
+
     JsonStructure jsonStructure;
+    private CompanyDTO companyDTO;
+    private DatabaseDAO databaseDAO;
     private static DatabaseController instance;
+
+
     private DatabaseController(){
+        databaseDAO = DatabaseDAO.getInstance();
+        companyDTO = new CompanyDTO(databaseDAO.getData());
 
     }
     public static DatabaseController getInstance(){
@@ -25,72 +32,42 @@ public class DatabaseController {
         return instance;
     }
 
-    private Map<String, HashMap<String,HashMap<String,TeamDTO>>> companyStructure = new HashMap<String, HashMap<String, HashMap<String, TeamDTO>>>();
 
-    public String addDepartmentToContainer(String department){
-
-        boolean doesExist = false;
-        if(companyStructure.containsKey(department)){
-                    doesExist = true;
+    public String addDepartment(String department){
+        try {
+            companyDTO.addDepartment(department);
+            return "Department added";
+        } catch (Exception e) {
+            return e.getMessage();
         }
-        if(!doesExist){
-            companyStructure.put(department, new HashMap<String,HashMap<String,TeamDTO>>());
-            return "Department added!";
-        }
-        else
-            return "Department already exists!";
     }
 
-    public String addLocalizationToContainer(String department,String localization){
+    public String addLocalization(String department, String localization){
+        try {
+            companyDTO.addLocalization(department, localization);
+            return "Localization added";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
 
-        boolean doesExist = false;
-        if(companyStructure.containsKey(department)){
-            if(companyStructure.get(department).containsKey(localization)) {
-                    doesExist = true;
-            }
-        }
-        if(!doesExist){
-            companyStructure.put(department, new HashMap<String,HashMap<String,TeamDTO>>());
-            companyStructure.get(department).put(localization, new HashMap<String,TeamDTO>());
-            return "Localization added!";
-        }
-        else
-            return "Localization already exists!";
     }
 
-    public String addTeamToContainer(String department,String localization,String team){
+    public String addTeam(String department, String localization, String team){
+        try {
+            companyDTO.addTeam(department, localization, team);
+            return "Team added";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
 
-        boolean doesExist = false;
-        if(companyStructure.containsKey(department)){
-            if(companyStructure.get(department).containsKey(localization)) {
-                if (companyStructure.get(department).get(localization).containsKey(team)) {
-                    doesExist = true;
-                }
-            }
-        }
-        if(!doesExist){
-            companyStructure.put(department, new HashMap<String,HashMap<String,TeamDTO>>());
-            companyStructure.get(department).put(localization, new HashMap<String,TeamDTO>());
-            companyStructure.get(department).get(localization).put(team, new TeamDTO(department,localization,team));
-            return "Team added!";
-        }
-        else
-            return "Team already exists!";
     }
 
-    public List<TeamDTO> getAssociates(String department,String localization,String team){
-        if(companyStructure.containsKey(department)) {
-            if (companyStructure.get(department).containsKey(localization)) {
-                if (companyStructure.get(department).get(localization).containsKey(team)) {
-                    return companyStructure.get(department).get(localization).get(team).getTeamRelationList();
-                }
-            }
-        }
-        return  null;
+    public List<TeamDTO> getAssociates(String department, String localization, String team){
+        return  companyDTO.getTeamAssociates(department,localization,team);
     }
 
     public void endTree(){
-        companyStructure.clear();
+        companyDTO.clearData();
     }
 
 

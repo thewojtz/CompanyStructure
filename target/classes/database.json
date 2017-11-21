@@ -1,31 +1,25 @@
 {
   "company": {
     "name": "MyCompany",
+    "teams": [
+      {"id": 1, "name": "Team1", "department": "", "localization": "", "relations": [] }
+    ],
     "departments": {
       "HR": {
-        "id": 1,
         "localisations": {
           "Kraków": {
-            "id": 1,
-            "teams": {
-              "Team1": {
-                "relation": ["Team2"]
-              },
-              "Team2": {
-                "relation": ["Team1"]
-              },
-              "Team3": {
-                "relation": ["Team1", "Team2"]
-              }
-            }
+            "teams": []
           }
         }
       },
       "PR": {
-
+        "localisations": {
+          "Kraków": {
+            "teams": []
+          }
+        }
       }
-    },
-    "team_cooperation": {}
+    }
 
   }
 }
